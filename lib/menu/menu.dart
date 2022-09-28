@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_api/pages/login.dart';
+import 'package:flutter_api/widgets/main_cards.dart';
 
 import '../pages/clients/ListClient.dart';
 import '../pages/sales/SaleList.dart';
@@ -68,39 +69,7 @@ class _MenuState extends State<Menu> {
           automaticallyImplyLeading: false,
           title: const Text(''),
         ),
-        body: Container(
-          color: Colors.deepPurple[10],
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          padding: EdgeInsetsDirectional.all(30),
-          height: 600,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: <Widget>[
-              Container(
-                width: 200.0,
-                color: Colors.deepPurple[900],
-              ),
-              Container(
-                width: 200.0,
-                color: Colors.deepPurple[700],
-              ),
-              Container(
-                width: 200.0,
-                color: Colors.deepPurple[500],
-              ),
-              Container(
-                width: 200.0,
-                color: Colors.deepPurple[300],
-              ),
-              Container(
-                width: 200.0,
-                color: Colors.deepPurple[100],
-              ),
-            ],
-          ),
-        ),
+        body: MainCards(),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Color.fromARGB(255, 80, 62, 115),
           onPressed: () {

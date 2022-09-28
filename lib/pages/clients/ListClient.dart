@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 class ClientsScreen extends StatelessWidget {
   ClientsScreen(BuildContext context, {super.key});
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,12 +100,14 @@ class ClientsScreen extends StatelessWidget {
     );
   }
 
+
+
   Future<Client> findAllClients() async {
     var headers = {
       'Authorization': 'Basic YWxiYXRyb3M6c2VuaGExMjM=',
       'Cookie': 'JSESSIONID=1B02186E6BCAC7340DBAA37DA12BFDF5'
     };
-    var request = http.Request('GET', Uri.parse('192.168.0.32:8080/clients'));
+    var request = http.Request('GET', Uri.parse('http://192.168.0.32:8080/clients'));
 
     request.headers.addAll(headers);
 
@@ -114,7 +118,8 @@ class ClientsScreen extends StatelessWidget {
     } else {
       print(response.reasonPhrase);
     }
-    return (findAllClients());
+    var data;
+    return (data);
   }
 }
 
