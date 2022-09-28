@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import '../../models/client.dart';
 import '../../widgets/progress.dart';
@@ -5,10 +7,29 @@ import '../home.dart';
 import 'NewClient.dart';
 import 'package:http/http.dart' as http;
 
-class ClientsScreen extends StatelessWidget {
+class ClientsScreen extends StatefulWidget {
+
   ClientsScreen(BuildContext context, {super.key});
 
-  
+  @override
+  State<ClientsScreen> createState() => _ClientsScreenState();
+
+
+}
+
+class _ClientsScreenState extends State<ClientsScreen> {
+  late Future<Client> futureClient;
+
+  @override
+  void initState() {
+    super.initState();
+    futureClient = findAllClients();
+  }
+  late final Client client;
+
+  var data;
+
+  var clients = <Client>[];
 
   @override
   Widget build(BuildContext context) {
@@ -48,48 +69,78 @@ class ClientsScreen extends StatelessWidget {
               )),
         ],
       ),
-      body: FutureBuilder(
-        future: findAllClients(),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              // TODO: Handle this case.
-              break;
-            case ConnectionState.waiting:
-              return Progress();
-            case ConnectionState.active:
-              break;
-            case ConnectionState.done:
-              if (snapshot.data != null) {
-                final List<Client> clients = snapshot.data as List<Client>;
-                return ListView.builder(
-                  padding: const EdgeInsets.only(bottom: 85),
-                  itemBuilder: (context, index) {
-                    final Client client = clients[index];
-                    return _ClientItem(client);
-                  },
-                  itemCount: clients.length,
-                );
-              }
-              break;
-          }
-          return Center(
-            child: const Text(
-            'Erro ao realizar carregamento',
-            style: TextStyle(
-              fontSize: 20,
-            ),
-          ));
-        },
+      body: Center(
+        child: FutureBuilder<Client>(
+          future: futureClient,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Card(
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    color: Theme.of(context).colorScheme.outline,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                ),
+                shadowColor: Colors.blueGrey,
+                child: ListTile(
+                  title: Text(
+                    client.name,
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                  subtitle: Text(
+                    client.adress,
+                    style: const TextStyle(fontSize: 15),
+                  ),
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            return const CircularProgressIndicator();
+          },
+        ),
       ),
+      // body: FutureBuilder(
+      //   future: findAllClients(),
+      //   builder: (context, snapshot) {
+      //     switch (snapshot.connectionState) {
+      //       case ConnectionState.none:
+      //         break;
+      //       case ConnectionState.waiting:
+      //         return Progress();
+      //       case ConnectionState.active:
+      //         break;
+      //       case ConnectionState.done:
+      //         if (snapshot.hasData) {
+      //           final List<Client> clients = snapshot.hasData as List<Client>;
+      //           return ListView.builder(
+      //             padding: const EdgeInsets.only(bottom: 85),
+      //             itemBuilder: (context, index) {
+      //               final Client client = clients[index];
+      //               return _ClientItem(client);
+      //             },
+      //             itemCount: clients.length,
+      //           );
+      //         }
+      //         break;
+      //     }
+      //     return const Center(
+      //         child: Text(
+      //       'Erro ao realizar carregamento',
+      //       style: TextStyle(
+      //         fontSize: 20,
+      //       ),
+      //     ));
+      //   },
+      // ),
       floatingActionButton: FloatingActionButton(
         elevation: 2.0,
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (contextNew) => ClientsNewScreen(
-                context,
+              builder: (contextNew) => ClientsNewScreen(clientsNewContext: context,
               ),
             ),
           );
@@ -100,14 +151,13 @@ class ClientsScreen extends StatelessWidget {
     );
   }
 
-
-
   Future<Client> findAllClients() async {
     var headers = {
       'Authorization': 'Basic YWxiYXRyb3M6c2VuaGExMjM=',
       'Cookie': 'JSESSIONID=1B02186E6BCAC7340DBAA37DA12BFDF5'
     };
-    var request = http.Request('GET', Uri.parse('http://192.168.0.32:8080/clients'));
+    var request =
+        http.Request('GET', Uri.parse('http://192.168.0.32:8080/clients'));
 
     request.headers.addAll(headers);
 
@@ -118,39 +168,38 @@ class ClientsScreen extends StatelessWidget {
     } else {
       print(response.reasonPhrase);
     }
-    var data;
     return (data);
   }
 }
 
-class _ClientItem extends StatelessWidget {
-  // widget privado que fara parte apenas da tela cliente - lista
-  final Client client;
-
-  _ClientItem(this.client);
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(
-        side: BorderSide(
-          color: Theme.of(context).colorScheme.outline,
-        ),
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-      ),
-      shadowColor: Colors.blueGrey,
-      child: ListTile(
-        title: Text(
-          client.name,
-          style: const TextStyle(fontSize: 18),
-        ),
-        subtitle: Text(
-          client.adress,
-          style: const TextStyle(fontSize: 15),
-        ),
-      ),
-    );
-  }
-}
+// class _ClientItem extends StatelessWidget {
+//   // widget privado que fara parte apenas da tela cliente - lista
+//   final Client client;
+//
+//   _ClientItem(this.client);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     // TODO: implement build
+//     return Card(
+//       elevation: 3,
+//       shape: RoundedRectangleBorder(
+//         side: BorderSide(
+//           color: Theme.of(context).colorScheme.outline,
+//         ),
+//         borderRadius: const BorderRadius.all(Radius.circular(12)),
+//       ),
+//       shadowColor: Colors.blueGrey,
+//       child: ListTile(
+//         title: Text(
+//           client.name,
+//           style: const TextStyle(fontSize: 18),
+//         ),
+//         subtitle: Text(
+//           client.adress,
+//           style: const TextStyle(fontSize: 15),
+//         ),
+//       ),
+//     );
+//   }
+// }
