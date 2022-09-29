@@ -1,28 +1,23 @@
+import 'dart:convert';
+
 class Client {
   final int id;
-  late String name;
-  String adress;
-  int number;
-  String district;
-  int telephone;
+  final String name;
+  final String adress;
+  final int number;
+  final String district;
+  final int telephone;
 
-  Client(this.id, this.name, this.adress, this.number, this.district,
-      this.telephone);
 
-  factory Client.fromJson(dynamic json) {
-    return Client(
-        json['id'] as int,
-        json['name'] as String,
-        json['adress'] as String,
-        json['number'] as int,
-        json['district'] as String,
-        json['telephone' as int]);
-  }
+  Client({
+    required this.id,
+    required this.name,
+    required this.adress,
+    required this.number,
+    required this.district,
+    required this.telephone,
 
-  @override
-  String toString() {
-    return toMap().toString();
-  }
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -32,17 +27,28 @@ class Client {
       'number': number,
       'district': district,
       'telephone': telephone,
+
     };
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = id;
-    data['name'] = name;
-    data['adress'] = adress;
-    data['number'] = number;
-    data['district'] = district;
-    data['telephone'] = telephone;
-    return data;
+  factory Client.fromMap(Map<String, dynamic> map) {
+    return Client(
+      id: map['id'],
+      name: map['name'],
+      adress: map['adress'],
+      number: map['number'],
+      district: map['district'],
+      telephone: map['telephone'],
+
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Client.fromJson(String source) => Client.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'Client(id: $id, name: $name, adress: $adress, number: $number, district: $district, telephone: $telephone)';
   }
 }

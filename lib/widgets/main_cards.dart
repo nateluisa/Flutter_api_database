@@ -10,8 +10,7 @@ class MainCards extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
       ),
-      padding: EdgeInsetsDirectional.all(30),
-      height: 600,
+      height: 1000,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[

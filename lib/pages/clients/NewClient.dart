@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_api/models/client.dart';
 import 'package:http/http.dart' as http;
 
 class ClientsNewScreen extends StatefulWidget {
@@ -12,12 +13,12 @@ class ClientsNewScreen extends StatefulWidget {
 
   const ClientsNewScreen(
       {Key? key,
-        this.name,
-        this.adress,
-        this.number,
-        this.district,
-        this.telephone,
-        required BuildContext clientsNewContext})
+      this.name,
+      this.adress,
+      this.number,
+      this.district,
+      this.telephone,
+      required BuildContext clientsNewContext})
       : super(key: key);
 
   @override
@@ -25,7 +26,6 @@ class ClientsNewScreen extends StatefulWidget {
 }
 
 class _ClientsNewScreenState extends State<ClientsNewScreen> {
-
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _adressController = TextEditingController();
   final TextEditingController _numberController = TextEditingController();
@@ -33,9 +33,8 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
   final TextEditingController _telephoneController = TextEditingController();
 
 
-
-  // late Bank bank;
   final _formKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -93,16 +92,16 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
                                   ),
                                   Expanded(
                                       child: TextFormField(
-                                        keyboardType: TextInputType.number,
-                                        controller: _numberController,
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return 'Informe o numero';
-                                          }
-                                        },
-                                        decoration:
+                                    keyboardType: TextInputType.number,
+                                    controller: _numberController,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Informe o numero';
+                                      }
+                                    },
+                                    decoration:
                                         (InputDecoration(hintText: 'Numero')),
-                                      ))
+                                  ))
                                 ],
                               ),
                             )
@@ -122,7 +121,7 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
                                   }
                                 },
                                 decoration:
-                                (InputDecoration(hintText: 'Endereço')),
+                                    (InputDecoration(hintText: 'Endereço')),
                               ),
                             ),
                             Padding(
@@ -135,7 +134,7 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
                                   }
                                 },
                                 decoration:
-                                (InputDecoration(hintText: 'Bairro')),
+                                    (InputDecoration(hintText: 'Bairro')),
                               ),
                             ),
                             Padding(
@@ -149,7 +148,7 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
                                   }
                                 },
                                 decoration:
-                                (InputDecoration(hintText: 'Telefone')),
+                                    (InputDecoration(hintText: 'Telefone')),
                               ),
                             )
                           ],
@@ -196,9 +195,9 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
                                 ),
                                 Expanded(
                                     child: TextField(
-                                      decoration:
-                                      InputDecoration(hintText: 'Teste de input3'),
-                                    )),
+                                  decoration: InputDecoration(
+                                      hintText: 'Teste de input3'),
+                                )),
                               ],
                             ),
                           )
@@ -223,9 +222,9 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
                                 ),
                                 Expanded(
                                     child: TextField(
-                                      decoration: InputDecoration(
-                                          hintText: 'Teste de input 5'),
-                                    )),
+                                  decoration: InputDecoration(
+                                      hintText: 'Teste de input 5'),
+                                )),
                               ],
                             ),
                           )
@@ -238,8 +237,8 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
               floatingActionButton: FloatingActionButton(
                 elevation: 2.0,
                 onPressed: () {
-                  save();
-
+                  saveClient(widget.name, widget.adress, widget.number,
+                      widget.district, widget.telephone);
                 },
                 child: Icon(Icons.save),
                 backgroundColor: Color.fromARGB(255, 80, 62, 115),
@@ -249,19 +248,21 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
     );
   }
 
-  void save() async {
+  Future<String> saveClient(String name, String adress, int number,
+      String district, int telephone) async {
     var headers = {
       'Authorization': 'Basic YWxiYXRyb3M6c2VuaGExMjM=',
       'Content-Type': 'application/json',
       'Cookie': 'JSESSIONID=1B02186E6BCAC7340DBAA37DA12BFDF5'
     };
-    var request = http.Request('POST', Uri.parse('http://192.168.0.32:8080/clients'));
+    var request =
+        http.Request('POST', Uri.parse('http://192.168.0.32:8080/clients'));
     request.body = json.encode({
-      "name": "giovanna",
-      "adress": "address test",
-      "number": 123,
-      "district": "district test",
-      "telephone": "+553755555555"
+      "name": _nameController,
+      "adress": widget.adress,
+      "number": widget.adress,
+      "district": widget.district,
+      "telephone": widget.telephone
     });
     request.headers.addAll(headers);
 
@@ -269,12 +270,10 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
     }
-    else {
-    print(response.reasonPhrase);
-    }
-
+   
+    return (request.body);
   }
 }
-
-
