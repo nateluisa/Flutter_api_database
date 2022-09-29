@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_api/models/client.dart';
+import 'package:flutter_api/pages/clients/ListClient.dart';
 import 'package:http/http.dart' as http;
+
+import '../../models/client.dart';
 
 class ClientsNewScreen extends StatefulWidget {
   final name;
@@ -32,9 +34,7 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
   final TextEditingController _districtController = TextEditingController();
   final TextEditingController _telephoneController = TextEditingController();
 
-
   final _formKey = GlobalKey<FormState>();
-
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +163,7 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
-                              children: [
+                              children: const [
                                 Expanded(
                                   child: TextField(
                                     decoration: InputDecoration(
@@ -185,7 +185,7 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
-                              children: [
+                              children: const [
                                 Expanded(
                                   child: TextField(
                                     decoration: InputDecoration(
@@ -212,7 +212,7 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
-                              children: [
+                              children: const [
                                 Expanded(
                                   child: TextField(
                                     decoration: InputDecoration(
@@ -237,11 +237,36 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
               floatingActionButton: FloatingActionButton(
                 elevation: 2.0,
                 onPressed: () {
+                  print('salvou');
+                  final String name = widget.name;
+                  final String adress = widget.adress;
+                  final int number = int.parse(widget.number);
+                  final String district = widget.district;
+                  final int telephone = int.parse(widget.telephone);
+                  final Client newClient = Client(
+                      name: name,
+                      adress: adress,
+                      number: number,
+                      district: district,
+                      telephone: telephone,
+                      id: 0);
                   saveClient(widget.name, widget.adress, widget.number,
-                      widget.district, widget.telephone);
+                          widget.district, widget.telephone)
+                      .then((id) => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  ClientsScreen(context),
+                            ),
+                          ));
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Editado com sucesso!'),
+                  ));
+                  // saveClient(widget.name, widget.adress, widget.number,
+                  //     widget.district, widget.telephone);
                 },
-                child: Icon(Icons.save),
-                backgroundColor: Color.fromARGB(255, 80, 62, 115),
+                backgroundColor: const Color.fromARGB(255, 80, 62, 115),
+                child: const Icon(Icons.save),
               ),
             )),
       ),
@@ -273,7 +298,7 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
     } else {
       print(response.reasonPhrase);
     }
-   
+
     return (request.body);
   }
 }
