@@ -1,33 +1,28 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import '../../models/client.dart';
-import '../../widgets/progress.dart';
 import '../home.dart';
 import 'NewClient.dart';
 import 'package:http/http.dart' as http;
 
 class ClientsScreen extends StatefulWidget {
-
   ClientsScreen(BuildContext context, {super.key});
 
   @override
   State<ClientsScreen> createState() => _ClientsScreenState();
-
-
 }
 
 class _ClientsScreenState extends State<ClientsScreen> {
-  late Future<Client> futureClient;
+  late Future<List<Client>> futureClient;
 
   @override
   void initState() {
     super.initState();
     futureClient = findAllClients();
   }
-  late final Client client;
 
-  var data;
+  @override
+  late final Client client;
 
   var clients = <Client>[];
 
@@ -70,29 +65,34 @@ class _ClientsScreenState extends State<ClientsScreen> {
         ],
       ),
       body: Center(
-        child: FutureBuilder<Client>(
+        child: FutureBuilder<List<Client>>(
           future: futureClient,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Card(
-                elevation: 3,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
-                  borderRadius: const BorderRadius.all(Radius.circular(12)),
-                ),
-                shadowColor: Colors.blueGrey,
-                child: ListTile(
-                  title: Text(
-                    client.name,
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                  subtitle: Text(
-                    client.adress,
-                    style: const TextStyle(fontSize: 15),
-                  ),
-                ),
+              return ListView.builder(
+                itemCount: snapshot.data?.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Theme.of(context).colorScheme.outline,
+                      ),
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    ),
+                    shadowColor: Colors.blueGrey,
+                    child: ListTile(
+                      title: Text(
+                        '${snapshot.data?[index].name}',
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                      subtitle: Text(
+                        '${snapshot.data?[index].adress}',
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                    ),
+                  );
+                },
               );
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
@@ -101,46 +101,13 @@ class _ClientsScreenState extends State<ClientsScreen> {
           },
         ),
       ),
-      // body: FutureBuilder(
-      //   future: findAllClients(),
-      //   builder: (context, snapshot) {
-      //     switch (snapshot.connectionState) {
-      //       case ConnectionState.none:
-      //         break;
-      //       case ConnectionState.waiting:
-      //         return Progress();
-      //       case ConnectionState.active:
-      //         break;
-      //       case ConnectionState.done:
-      //         if (snapshot.hasData) {
-      //           final List<Client> clients = snapshot.hasData as List<Client>;
-      //           return ListView.builder(
-      //             padding: const EdgeInsets.only(bottom: 85),
-      //             itemBuilder: (context, index) {
-      //               final Client client = clients[index];
-      //               return _ClientItem(client);
-      //             },
-      //             itemCount: clients.length,
-      //           );
-      //         }
-      //         break;
-      //     }
-      //     return const Center(
-      //         child: Text(
-      //       'Erro ao realizar carregamento',
-      //       style: TextStyle(
-      //         fontSize: 20,
-      //       ),
-      //     ));
-      //   },
-      // ),
       floatingActionButton: FloatingActionButton(
         elevation: 2.0,
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (contextNew) => ClientsNewScreen(clientsNewContext: context,
+              builder: (contextNew) => ClientsNewScreen ( context,
               ),
             ),
           );
@@ -151,10 +118,10 @@ class _ClientsScreenState extends State<ClientsScreen> {
     );
   }
 
-  Future<Client> findAllClients() async {
+  Future<List<Client>> findAllClients() async {
     var headers = {
       'Authorization': 'Basic YWxiYXRyb3M6c2VuaGExMjM=',
-      'Cookie': 'JSESSIONID=1B02186E6BCAC7340DBAA37DA12BFDF5'
+      'Cookie': 'JSESSIONID=07E7969F1D017A05181A4FEE32C08FDC'
     };
     var request =
         http.Request('GET', Uri.parse('http://192.168.0.32:8080/clients'));
@@ -162,44 +129,15 @@ class _ClientsScreenState extends State<ClientsScreen> {
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
+    List<Client> clients = [];
 
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
+      var body = await response.stream.bytesToString();
+      Iterable l = json.decode(body);
+      clients = List<Client>.from(l.map((model) => Client.fromJson(model)));
     } else {
       print(response.reasonPhrase);
     }
-    return (data);
+    return clients;
   }
 }
-
-// class _ClientItem extends StatelessWidget {
-//   // widget privado que fara parte apenas da tela cliente - lista
-//   final Client client;
-//
-//   _ClientItem(this.client);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     // TODO: implement build
-//     return Card(
-//       elevation: 3,
-//       shape: RoundedRectangleBorder(
-//         side: BorderSide(
-//           color: Theme.of(context).colorScheme.outline,
-//         ),
-//         borderRadius: const BorderRadius.all(Radius.circular(12)),
-//       ),
-//       shadowColor: Colors.blueGrey,
-//       child: ListTile(
-//         title: Text(
-//           client.name,
-//           style: const TextStyle(fontSize: 18),
-//         ),
-//         subtitle: Text(
-//           client.adress,
-//           style: const TextStyle(fontSize: 15),
-//         ),
-//       ),
-//     );
-//   }
-// }

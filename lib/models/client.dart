@@ -6,7 +6,7 @@ class Client {
   final String adress;
   final int number;
   final String district;
-  final int telephone;
+  final String telephone;
 
 
   Client({
@@ -44,11 +44,23 @@ class Client {
   }
 
   String toJson() => json.encode(toMap());
+  factory Client.fromJson(Map<String, dynamic> map) {
+    return Client(
+      id: map['id'],
+      name: map['name'],
+      adress: map['adress'],
+      number: map['number'],
+      district: map['district'],
+      telephone: map['telephone'],
 
-  factory Client.fromJson(String source) => Client.fromMap(json.decode(source));
+    );
+  }
+
 
   @override
   String toString() {
     return 'Client(id: $id, name: $name, adress: $adress, number: $number, district: $district, telephone: $telephone)';
   }
 }
+
+

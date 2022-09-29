@@ -238,7 +238,7 @@ class _ClientsEditScreenState extends State<ClientsEditScreen> {
                   final String adress = _adressController.text;
                   final int number = int.parse(_numberController.text);
                   final String district = _districtController.text;
-                  final int telephone = int.parse(_telephoneController.text);
+                  final String telephone = _telephoneController.text;
                   final Client newClient =
                   Client(name: name, adress: adress, number: number, district: district, telephone: telephone, id: 0);
                   _dao.saveClient(newClient).then((id) => Navigator.push(

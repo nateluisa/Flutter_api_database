@@ -7,21 +7,8 @@ import 'package:http/http.dart' as http;
 import '../../models/client.dart';
 
 class ClientsNewScreen extends StatefulWidget {
-  final name;
-  final adress;
-  final number;
-  final district;
-  final telephone;
+  ClientsNewScreen(BuildContext context);
 
-  const ClientsNewScreen(
-      {Key? key,
-      this.name,
-      this.adress,
-      this.number,
-      this.district,
-      this.telephone,
-      required BuildContext clientsNewContext})
-      : super(key: key);
 
   @override
   State<ClientsNewScreen> createState() => _ClientsNewScreenState();
@@ -237,21 +224,17 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
               floatingActionButton: FloatingActionButton(
                 elevation: 2.0,
                 onPressed: () {
-                  print('salvou');
-                  final String name = widget.name;
-                  final String adress = widget.adress;
-                  final int number = int.parse(widget.number);
-                  final String district = widget.district;
-                  final int telephone = int.parse(widget.telephone);
-                  final Client newClient = Client(
-                      name: name,
-                      adress: adress,
-                      number: number,
-                      district: district,
-                      telephone: telephone,
-                      id: 0);
-                  saveClient(widget.name, widget.adress, widget.number,
-                          widget.district, widget.telephone)
+                  Client client = Client(
+                    id: 0,
+                    name: _nameController.text,
+                    adress: _adressController.text,
+                    number: int.parse(_numberController.text),
+                    district: _districtController.text,
+                    telephone: _telephoneController.text,
+
+                  );
+
+                  saveClient(client)
                       .then((id) => Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -273,8 +256,7 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
     );
   }
 
-  Future<String> saveClient(String name, String adress, int number,
-      String district, int telephone) async {
+  Future<String> saveClient(Client client) async {
     var headers = {
       'Authorization': 'Basic YWxiYXRyb3M6c2VuaGExMjM=',
       'Content-Type': 'application/json',
@@ -282,13 +264,9 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
     };
     var request =
         http.Request('POST', Uri.parse('http://192.168.0.32:8080/clients'));
-    request.body = json.encode({
-      "name": _nameController,
-      "adress": widget.adress,
-      "number": widget.adress,
-      "district": widget.district,
-      "telephone": widget.telephone
-    });
+    var clientMap = client.toMap();
+    print(jsonEncode(clientMap));
+    request.body = jsonEncode(clientMap);
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
