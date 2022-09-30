@@ -49,9 +49,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (contextNew) => HomePage(
-                  homeContext: context,
-                ),
+                builder: (contextNew) => HomePage(context, homeContext: context)
               ),
             );
           },

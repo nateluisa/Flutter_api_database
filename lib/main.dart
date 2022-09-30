@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       loginContext: context,
     ),
     HomePage.tag: (context) => HomePage(
-      homeContext: context,
+      context, homeContext: context,
     ),
   };
 

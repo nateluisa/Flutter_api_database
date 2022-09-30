@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_api/pages/login.dart';
+import 'package:flutter_api/widgets/grid.dart';
 import 'package:flutter_api/widgets/main_cards.dart';
 
 import '../pages/clients/ListClient.dart';
@@ -69,7 +70,7 @@ class _MenuState extends State<Menu> {
           automaticallyImplyLeading: false,
           title: const Text(''),
         ),
-        body: MainCards(),
+        body: MyDashboard(),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Color.fromARGB(255, 80, 62, 115),
           onPressed: () {

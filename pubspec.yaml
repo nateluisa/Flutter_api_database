@@ -39,6 +39,7 @@ dependencies:
   http:
   json_annotation:
   path_provider:
+  persistent_bottom_nav_bar: ^5.0.2
 
 dev_dependencies:
   flutter_test:
