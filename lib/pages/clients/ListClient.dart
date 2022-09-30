@@ -1,5 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_api/pages/clients/EditClient.dart';
+import 'package:flutter_api/pages/clients/ViewClient.dart';
+import 'package:flutter_api/widgets/alert_dialog.dart';
+import 'package:flutter_api/widgets/progress.dart';
 import '../../models/client.dart';
 import '../home.dart';
 import 'NewClient.dart';
@@ -70,6 +74,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
+                padding: const EdgeInsets.only(bottom: 85),
                 itemCount: snapshot.data?.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
@@ -82,6 +87,91 @@ class _ClientsScreenState extends State<ClientsScreen> {
                     ),
                     shadowColor: Colors.blueGrey,
                     child: ListTile(
+                      trailing: PopupMenuButton<String>(
+                          icon: const Icon(Icons.more_vert),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              color: Theme.of(context).colorScheme.outline,
+                            ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(12)),
+                          ),
+                          itemBuilder: (BuildContext context) {
+                            return [
+                              PopupMenuItem<String>(
+                                value: '1',
+                                child: const Text('Editar'),
+                                onTap: () {
+                                  editClient(client.id);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          ClientsEditScreen(
+                                        context,
+                                        client: client,
+                                        BuildContext: context,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                              PopupMenuItem<String>(
+                                value: '2',
+                                onTap: () {
+                                  editClient(client.id).then((cli) =>
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  ClientsViewScreen(context,
+                                                      client: client,
+                                                      BuildContext:
+                                                          BuildContext))));
+                                },
+                                child: const Text('Visualizar'),
+                              ),
+                              PopupMenuItem<String>(
+                                onTap: () {
+                                  print('delete');
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return MyAlertDialog(
+                                          icon: const Icon(Icons.warning_amber),
+                                          title: Text('Deseja realmente excluir?'),
+                                          content: Text('Após a confirmação o cliente será definitivamente excluído!'),
+                                          onCancel: () {
+                                            Navigator.pop(context);
+                                          },
+                                          onConfirm: () {
+                                            print('dialogo aberto');
+                                            deleteClient(client.id).then((id) =>
+                                                Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (BuildContext
+                                                                  context) =>
+                                                              ClientsScreen(
+                                                                  context),
+                                                        ))
+                                                    .then((value) =>
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                const SnackBar(
+                                                          content: Text(
+                                                              'Cliente deletado!'),
+                                                        ))));
+                                          },
+                                        );
+                                      });
+                                },
+                                value: '3',
+                                child: const Text('Excluir'),
+                              ),
+                            ];
+                          }),
                       title: Text(
                         '${snapshot.data?[index].name}',
                         style: const TextStyle(fontSize: 18),
@@ -97,7 +187,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
-            return const CircularProgressIndicator();
+            return const Progress();
           },
         ),
       ),
@@ -107,7 +197,8 @@ class _ClientsScreenState extends State<ClientsScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (contextNew) => ClientsNewScreen ( context,
+              builder: (contextNew) => ClientsNewScreen(
+                context,
               ),
             ),
           );
@@ -140,4 +231,57 @@ class _ClientsScreenState extends State<ClientsScreen> {
     }
     return clients;
   }
+
+  Future<Client> editClient(int id) async {
+    final response = await http.get(
+      Uri.parse('http://192.168.0.32:8080/clients/$id'),
+    );
+
+    if (response.statusCode == 200) {
+      return Client.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Falha ao carregar cliente');
+    }
+  }
+
+  Future<String> deleteClient(int id) async {
+    var headers = {
+      'Authorization': 'Basic YWxiYXRyb3M6c2VuaGExMjM=',
+      'Content-Type': 'application/json',
+      'Cookie': 'JSESSIONID=1B02186E6BCAC7340DBAA37DA12BFDF5'
+    };
+    var request = http.Request(
+        'DELETE', Uri.parse('http://192.168.0.32:8080/clients/$id'));
+    var clientMap = client.toMap();
+    print(jsonEncode(clientMap));
+    request.body = jsonEncode(clientMap);
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
+
+    return (request.body);
+  }
+
+// Future<Object> deleteClient(int id) async {
+//   final http.Response response = await http.delete(
+//     Uri.parse('http://192.168.0.32:8080/clients/$id'),
+//     headers: <String, String>{
+//       'Authorization': 'Basic YWxiYXRyb3M6c2VuaGExMjM=',
+//       'Cookie': 'JSESSIONID=07E7969F1D017A05181A4FEE32C08FDC'
+//     },
+//   );
+//   if (response.statusCode == 200) {
+//     return Client.fromJson(jsonDecode(response.body));
+//   } else {
+//     throw Exception('Nao é possivel excluir!');
+//   }
+//
+//   return response;
+// }
 }

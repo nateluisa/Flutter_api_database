@@ -1,14 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_api/pages/clients/ListClient.dart';
 import 'package:http/http.dart' as http;
-
 import '../../models/client.dart';
 
 class ClientsNewScreen extends StatefulWidget {
   ClientsNewScreen(BuildContext context);
-
 
   @override
   State<ClientsNewScreen> createState() => _ClientsNewScreenState();
@@ -231,19 +228,17 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
                     number: int.parse(_numberController.text),
                     district: _districtController.text,
                     telephone: _telephoneController.text,
-
                   );
 
-                  saveClient(client)
-                      .then((id) => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  ClientsScreen(context),
-                            ),
-                          ));
+                  saveClient(client).then((id) => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              ClientsScreen(context),
+                        ),
+                      ));
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Editado com sucesso!'),
+                    content: Text('Salvo com sucesso!'),
                   ));
                   // saveClient(widget.name, widget.adress, widget.number,
                   //     widget.district, widget.telephone);

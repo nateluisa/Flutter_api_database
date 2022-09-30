@@ -1,5 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 import '../../dao/clients_dao.dart';
 import '../../models/client.dart';
 import 'ListClient.dart';
@@ -7,10 +8,10 @@ import 'ListClient.dart';
 class ClientsEditScreen extends StatefulWidget {
   final Client client;
 
-  const ClientsEditScreen(
+  const ClientsEditScreen(clientsEditContext,
       {Key? key,
         required this.client,
-        required BuildContext clientsEditContext})
+        required BuildContext })
       : super(key: key);
 
   @override
@@ -258,4 +259,28 @@ class _ClientsEditScreenState extends State<ClientsEditScreen> {
       ),
     );
   }
+}
+
+Future<String> saveClient(Client client) async {
+  var headers = {
+    'Authorization': 'Basic YWxiYXRyb3M6c2VuaGExMjM=',
+    'Content-Type': 'application/json',
+    'Cookie': 'JSESSIONID=1B02186E6BCAC7340DBAA37DA12BFDF5'
+  };
+  var request =
+  http.Request('POST', Uri.parse('http://192.168.0.32:8080/clients'));
+  var clientMap = client.toMap();
+  print(jsonEncode(clientMap));
+  request.body = jsonEncode(clientMap);
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+
+  if (response.statusCode == 200) {
+    print(await response.stream.bytesToString());
+  } else {
+    print(response.reasonPhrase);
+  }
+
+  return (request.body);
 }

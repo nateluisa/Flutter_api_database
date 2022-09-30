@@ -10,8 +10,9 @@ class Progress extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: const <Widget>[
-          CircularProgressIndicator(),
-          Text('Carregando'),
+          CircularProgressIndicator(
+          ),
+          Text('Carregando, aguarde um instante...'),
         ],
       ),
     );
