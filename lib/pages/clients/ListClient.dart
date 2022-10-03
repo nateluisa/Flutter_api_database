@@ -85,6 +85,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                     ),
                     shadowColor: Colors.blueGrey,
                     child: ListTile(
+                      contentPadding: const EdgeInsets.all(10),
                       trailing: PopupMenuButton<String>(
                           icon: const Icon(Icons.more_vert),
                           shape: RoundedRectangleBorder(
@@ -138,7 +139,9 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                         return MyAlertDialog(
                                           icon: const Icon(Icons.warning_amber),
                                           title: Text('Deseja realmente excluir?'),
-                                          content: Text('Após a confirmação o cliente será definitivamente excluído!'),
+                                          content: Text('Após a confirmação o cliente será definitivamente excluído!',  style: TextStyle(
+                                            fontSize: 17
+                                          ),),
                                           onCancel: () {
                                             Navigator.pop(context);
                                           },

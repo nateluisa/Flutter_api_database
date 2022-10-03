@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_api/pages/login.dart';
-import 'package:flutter_api/widgets/grid.dart';
+import 'package:flutter_api/widgets/dashboard.dart';
 import 'package:flutter_api/widgets/main_cards.dart';
 
 import '../pages/clients/ListClient.dart';
