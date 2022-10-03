@@ -119,8 +119,8 @@ class _DemoBottomAppBar extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (contextNew) => SallesScreen(
-                      sallesContext: context,
+                    builder: (contextNew) => SalesScreen(
+                      salesContext: context,
                     ),
                   ),
                 );

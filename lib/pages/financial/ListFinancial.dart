@@ -28,7 +28,7 @@ class FinancialList extends StatelessWidget {
         ),
         backgroundColor: Color.fromARGB(255, 80, 62, 115),
         title: Padding(
-          padding: const EdgeInsets.only(left: 90),
+          padding: const EdgeInsets.only(left: 75),
           child: Text(
             'Financeiro',
           ),

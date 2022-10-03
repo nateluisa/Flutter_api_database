@@ -29,7 +29,6 @@ class _ClientsScreenState extends State<ClientsScreen> {
   late final Client client;
 
   var clients = <Client>[];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +37,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
         iconTheme: const IconThemeData(color: Colors.white),
         actionsIconTheme:
             const IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
-        backgroundColor: Color.fromARGB(255, 80, 62, 115),
+        backgroundColor: const Color.fromARGB(255, 80, 62, 115),
         title: const Text(
           "Clientes",
           style: TextStyle(color: Colors.white),
@@ -85,7 +84,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                     ),
                     shadowColor: Colors.blueGrey,
                     child: ListTile(
-                      contentPadding: const EdgeInsets.all(10),
+                      contentPadding: const EdgeInsets.all(15),
                       trailing: PopupMenuButton<String>(
                           icon: const Icon(Icons.more_vert),
                           shape: RoundedRectangleBorder(
@@ -138,8 +137,8 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                       builder: (context) {
                                         return MyAlertDialog(
                                           icon: const Icon(Icons.warning_amber),
-                                          title: Text('Deseja realmente excluir?'),
-                                          content: Text('Após a confirmação o cliente será definitivamente excluído!',  style: TextStyle(
+                                          title: const Text('Deseja realmente excluir?'),
+                                          content: const Text('Após a confirmação o cliente será definitivamente excluído!',  style: TextStyle(
                                             fontSize: 17
                                           ),),
                                           onCancel: () {
@@ -173,9 +172,14 @@ class _ClientsScreenState extends State<ClientsScreen> {
                               ),
                             ];
                           }),
+                      leading: const Icon(
+                        Icons.account_circle_outlined,
+                        size: 38,
+                        color: Colors.deepPurple,
+                      ),
                       title: Text(
                         '${snapshot.data?[index].name}',
-                        style: const TextStyle(fontSize: 18),
+                        style: const TextStyle(fontSize: 19,),
                       ),
                       subtitle: Text(
                         '${snapshot.data?[index].adress}',
@@ -205,7 +209,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
           );
         },
         child: const Icon(Icons.add),
-        backgroundColor: Color.fromARGB(255, 80, 62, 115),
+        backgroundColor: const Color.fromARGB(255, 80, 62, 115),
       ),
     );
   }

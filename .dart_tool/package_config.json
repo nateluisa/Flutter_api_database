@@ -14,6 +14,12 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "archive",
+      "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/archive-3.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "args",
       "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/args-2.3.1",
       "packageUri": "lib/",
@@ -128,6 +134,12 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "csslib",
+      "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/csslib-0.17.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "cupertino_icons",
       "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.5",
       "packageUri": "lib/",
@@ -176,8 +188,20 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "flutter_native_splash",
+      "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_native_splash-2.2.10+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "flutter_test",
       "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/packages/flutter_test",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "flutter_web_plugins",
+      "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
@@ -200,6 +224,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "html",
+      "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/html-0.15.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "http",
       "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/http-0.13.5",
       "packageUri": "lib/",
@@ -216,6 +246,12 @@
       "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "image",
+      "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/image-3.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
     },
     {
       "name": "io",
@@ -336,6 +372,12 @@
       "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/persistent_bottom_nav_bar-5.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "petitparser",
+      "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/petitparser-5.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
     },
     {
       "name": "platform",
@@ -488,6 +530,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "universal_io",
+      "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/universal_io-2.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "validators",
       "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/validators-2.0.1",
       "packageUri": "lib/",
@@ -530,6 +578,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "xml",
+      "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/xml-6.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "yaml",
       "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/yaml-3.1.1",
       "packageUri": "lib/",
@@ -542,7 +596,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2022-09-30T17:07:13.213774Z",
+  "generated": "2022-10-03T17:41:23.271878Z",
   "generator": "pub",
   "generatorVersion": "2.18.0"
 }

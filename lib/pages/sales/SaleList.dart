@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../../menu/menu.dart';
 import 'NewSale.dart';
 
-class SallesScreen extends StatelessWidget {
-  SallesScreen({Key? key, required this.sallesContext}) : super(key: key);
-  final BuildContext sallesContext;
+class SalesScreen extends StatelessWidget {
+  SalesScreen({Key? key, required this.salesContext}) : super(key: key);
+  final BuildContext salesContext;
   bool opacidade = true;
   final _formKey = GlobalKey<FormState>();
 
@@ -29,7 +29,7 @@ class SallesScreen extends StatelessWidget {
         ),
         backgroundColor: Color.fromARGB(255, 80, 62, 115),
         title: Padding(
-          padding: const EdgeInsets.only(left: 90),
+          padding: const EdgeInsets.only(left: 85),
           child: Text(
             'Vendas',
           ),

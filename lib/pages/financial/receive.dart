@@ -28,7 +28,7 @@ class ReceiveScreen extends StatelessWidget {
         ),
         backgroundColor: Color.fromARGB(255, 80, 62, 115),
         title: Padding(
-          padding: const EdgeInsets.only(left: 60),
+          padding: const EdgeInsets.only(left: 55),
           child: Text(
             'Contas a receber',
           ),

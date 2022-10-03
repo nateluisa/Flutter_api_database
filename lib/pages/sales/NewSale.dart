@@ -243,8 +243,8 @@ class _NewSalleState extends State<NewSalle> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (contextNew) => SallesScreen(
-                        sallesContext: context,
+                      builder: (contextNew) => SalesScreen(
+                        salesContext: context,
                       ),
                     ),
                   );
