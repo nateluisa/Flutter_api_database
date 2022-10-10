@@ -146,6 +146,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "currency_text_input_formatter",
+      "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/currency_text_input_formatter-2.1.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "dart_style",
       "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/dart_style-2.2.4",
       "packageUri": "lib/",
@@ -252,6 +258,12 @@
       "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/image-3.2.0",
       "packageUri": "lib/",
       "languageVersion": "2.15"
+    },
+    {
+      "name": "intl",
+      "rootUri": "file:///C:/Users/Dev4/Downloads/flutter_windows_3.3.1-stable/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "io",
@@ -596,7 +608,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2022-10-03T17:41:23.271878Z",
+  "generated": "2022-10-10T11:58:52.905937Z",
   "generator": "pub",
   "generatorVersion": "2.18.0"
 }

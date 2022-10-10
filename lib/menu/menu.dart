@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_api/pages/login.dart';
 import 'package:flutter_api/widgets/dashboard.dart';
-import 'package:flutter_api/widgets/main_cards.dart';
-
+import '../animations/list.dart';
 import '../pages/clients/ListClient.dart';
+import '../pages/login.dart';
 import '../pages/sales/SaleList.dart';
 
 void main() {
@@ -18,8 +17,10 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
-  FloatingActionButtonLocation _fabLocation =
+  final FloatingActionButtonLocation _fabLocation =
       FloatingActionButtonLocation.endDocked;
+
+  bool visivel = true;
 
   @override
   Widget build(BuildContext context) {
@@ -41,46 +42,54 @@ class _MenuState extends State<Menu> {
                   // onSelected: choiceAction,
                   itemBuilder: (BuildContext context) {
                     return [
-                      PopupMenuItem<String>(
+                      const PopupMenuItem<String>(
                         value: '1',
                         child: Text('Usuário: Isadora'),
                       ),
-                      PopupMenuItem<String>(
+                      const PopupMenuItem<String>(
                         value: '2',
                         child: Text('Precisa de ajuda?'),
                       ),
                       PopupMenuItem<String>(
                         onTap: () {
+                         // Navigator.pop(context);
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (contextNew) =>
-                                  LoginPage(loginContext: context),
-                            ),
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (newContext) =>
+                                      LoginPage(loginContext: context)));
                         },
                         value: '3',
-                        child: Text('Sair'),
+                        child: const Text('Sair'),
                       ),
                     ];
                   }),
             )
           ],
-          backgroundColor: Color.fromARGB(255, 80, 62, 115),
+          backgroundColor: const Color.fromARGB(255, 80, 62, 115),
           automaticallyImplyLeading: false,
           title: const Text(''),
         ),
-        body: MyDashboard(),
+        body: Container(
+          color: Colors.deepPurple[100],
+          child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 700),
+              opacity: visivel ? 1 : 0,
+              child: const MyDashboard()),
+        ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Color.fromARGB(255, 80, 62, 115),
+          backgroundColor: const Color.fromARGB(255, 80, 62, 115),
           onPressed: () {
-            print('voltou pra home');
+            setState(() {
+              visivel = !visivel;
+            });
           },
-          tooltip: 'Inicio',
-          child: const Icon(Icons.home),
+          tooltip: 'Visibilidade da dashboard',
+          child: const Icon(Icons.remove_red_eye),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: _DemoBottomAppBar(
+        backgroundColor: Colors.deepPurple[100],
+        bottomNavigationBar: MyBottomAppBar(
           fabLocation: _fabLocation,
         ),
       ),
@@ -88,8 +97,9 @@ class _MenuState extends State<Menu> {
   }
 }
 
-class _DemoBottomAppBar extends StatelessWidget {
-  const _DemoBottomAppBar({
+class MyBottomAppBar extends StatelessWidget {
+  const MyBottomAppBar({
+    super.key,
     this.fabLocation = FloatingActionButtonLocation.endDocked,
     this.shape = const CircularNotchedRectangle(),
   });
@@ -103,11 +113,12 @@ class _DemoBottomAppBar extends StatelessWidget {
     FloatingActionButtonLocation.centerFloat,
   ];
 
+
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
       shape: shape,
-      color: Color.fromARGB(255, 80, 62, 115),
+      color: const Color.fromARGB(255, 80, 62, 115),
       child: IconTheme(
         data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
         child: Row(
@@ -126,7 +137,7 @@ class _DemoBottomAppBar extends StatelessWidget {
                 );
               },
             ),
-            if (centerLocations.contains(fabLocation)) const Spacer(),
+            //if (centerLocations.contains(fabLocation)) const Spacer(),
             IconButton(
               tooltip: 'Financeiro',
               icon: const Icon(Icons.monetization_on_rounded),
@@ -136,13 +147,30 @@ class _DemoBottomAppBar extends StatelessWidget {
               tooltip: 'Clientes',
               icon: const Icon(Icons.account_circle_sharp),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (contextNew) => ClientsScreen(
-                        context,
-                      ),
-                    ));
+                Navigator.of(context).push(PageRouteBuilder(
+                    pageBuilder: (context, animation, anotherAnimation) {
+                      return ClientsScreen(context);
+                    },
+                    transitionDuration: Duration(milliseconds: 400),
+                    transitionsBuilder:
+                        (context, animation, anotherAnimation, child) {
+                      animation = CurvedAnimation(
+                          curve: Curves.bounceIn, parent: animation);
+                      return Align(
+                        child: SizeTransition(
+                          sizeFactor: animation,
+                          child: child,
+                          axisAlignment: 0.0,
+                        ),
+                      );
+                    }));
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (contextNew) => ClientsScreen(
+                //         context,
+                //       ),
+                //     ));
               },
             ),
           ],

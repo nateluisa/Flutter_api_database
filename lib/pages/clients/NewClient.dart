@@ -1,8 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_api/pages/clients/ListClient.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:flutter_api/widgets/countries_autocomplete.dart';
+import 'package:flutter_api/widgets/decimal_input.dart';
 import 'package:http/http.dart' as http;
 import '../../models/client.dart';
+import '../home.dart';
 
 class ClientsNewScreen extends StatefulWidget {
   ClientsNewScreen(BuildContext context);
@@ -32,6 +37,32 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
               appBar: AppBar(
                 backgroundColor: Color.fromARGB(255, 80, 62, 115),
                 title: const Text('Novo cliente'),
+                leading: GestureDetector(
+                  onTap: () {
+                    print('clicou no backbutton');
+                    Navigator.of(context).push(PageRouteBuilder(
+                        pageBuilder: (context, animation, anotherAnimation) {
+                          return ClientsScreen(context);
+                        },
+                        transitionDuration: Duration(milliseconds: 600),
+                        transitionsBuilder:
+                            (context, animation, anotherAnimation, child) {
+                          animation = CurvedAnimation(
+                              curve: Curves.bounceIn, parent: animation);
+                          return Align(
+                            child: SizeTransition(
+                              sizeFactor: animation,
+                              child: child,
+                              axisAlignment: 0.0,
+                            ),
+                          );
+                        }));
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_outlined,
+                    // add custom icons also
+                  ),
+                ),
                 bottom: const TabBar(
                   tabs: <Widget>[
                     Tab(
@@ -169,19 +200,8 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
-                              children: const [
-                                Expanded(
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      hintText: 'Teste de input2',
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                    child: TextField(
-                                  decoration: InputDecoration(
-                                      hintText: 'Teste de input3'),
-                                )),
+                              children:  [
+                               Expanded(child: CountriesAutocomplete())
                               ],
                             ),
                           )
@@ -196,19 +216,38 @@ class _ClientsNewScreenState extends State<ClientsNewScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
-                              children: const [
+                              children: [
+                                Expanded(
+                                  child: DecimalFormater(), // input decimal
+                                ),
                                 Expanded(
                                   child: TextField(
+                                    // input money
+                                    inputFormatters: [
+                                      CurrencyTextInputFormatter(
+                                        locale: 'pt-br',
+                                        symbol: 'R\$',
+                                      )
+                                    ],
+                                    keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
-                                      hintText: 'Teste de input4',
-                                    ),
+                                        hintText: 'Teste de input currency'),
                                   ),
                                 ),
                                 Expanded(
                                     child: TextField(
+                                  // input percentual
+                                  inputFormatters: [
+                                    CurrencyTextInputFormatter(
+                                        locale: 'pt-br',
+                                        symbol: '%',
+                                        decimalDigits: 2,
+                                        turnOffGrouping: true)
+                                  ],
+                                  keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
-                                      hintText: 'Teste de input 5'),
-                                )),
+                                      hintText: 'Teste de input percentual'),
+                                ))
                               ],
                             ),
                           )

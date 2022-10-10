@@ -2,26 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_api/pages/buy/ShoppingList.dart';
 import 'package:flutter_api/pages/clients/ListClient.dart';
 import 'package:flutter_api/pages/financial/ListFinancial.dart';
-import 'package:flutter_api/pages/financial/payment.dart';
-import 'package:flutter_api/pages/financial/receive.dart';
 import 'package:flutter_api/pages/provider/ProviderList.dart';
 import 'package:flutter_api/pages/sales/SaleList.dart';
-import 'package:flutter_api/widgets/card_picture.dart';
 
-class MyDashboard extends StatefulWidget {
+class MyDashboard extends StatelessWidget {
   const MyDashboard({Key? key}) : super(key: key);
 
   @override
-  State<MyDashboard> createState() => _MyDashboardState();
-}
-
-bool visivel = true;
-
-class _MyDashboardState extends State<MyDashboard> {
-  @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey[300],
+      color: Colors.deepPurple[100],
       child: GridView.count(
         scrollDirection: Axis.vertical,
         padding: const EdgeInsets.all(8),
@@ -29,71 +19,65 @@ class _MyDashboardState extends State<MyDashboard> {
         mainAxisSpacing: 3,
         crossAxisCount: 1,
         primary: false,
-        childAspectRatio: 4 / 2,
+        childAspectRatio: 10 / 4,
         children: <Widget>[
           Container(
             padding: const EdgeInsets.all(1),
             alignment: Alignment.center,
-            height: 180,
+            height: 150,
             child: SizedBox(
-              height: 180,
-              child: AnimatedOpacity(
-                duration: const Duration(milliseconds: 1500),
-                opacity: visivel ? 1 : 0,
-                child: Card(
-                  elevation: 6,
-                  shadowColor: Colors.grey,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        const ListTile(
-                          leading: Icon(
-                            Icons.monetization_on,
-                            size: 35,
-                            color: Colors.deepPurple,
-                          ),
-                          title: Text(
-                            'Financeiro',
-                            style: TextStyle(fontSize: 23),
-                          ),
-                          subtitle: Text(
-                              'Deseja buscar pelo ultimo lançamento realizado?'),
-                          isThreeLine: true,
+              height: 150,
+              child: Card(
+                elevation: 6,
+                shadowColor: Colors.grey,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const ListTile(
+                        leading: Icon(
+                          Icons.monetization_on,
+                          size: 35,
+                          color: Colors.deepPurple,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            TextButton(
-                              child: const Text('ESCONDER'),
-                              onPressed: () {
-                                setState(() {
-                                  visivel = !visivel;
-                                });
-                              },
-                            ),
-                            const SizedBox(width: 8),
-                            TextButton(
-                              child: const Text('IR PARA'),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (contextNew) => FinancialList(
-                                      financialContext: context,
-                                    ),
+                        title: Text(
+                          'Financeiro',
+                          style: TextStyle(fontSize: 23),
+                        ),
+                        subtitle: Text(
+                            'Deseja buscar pelo ultimo lançamento realizado?'),
+                        isThreeLine: true,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          // TextButton(
+                          //   child: const Text('REMOVER'),
+                          //   onPressed: () {
+                          //
+                          //   },
+                          // ),
+                          const SizedBox(width: 8),
+                          TextButton(
+                            child: const Text('IR PARA'),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (contextNew) => FinancialList(
+                                    financialContext: context,
                                   ),
-                                );
-                              },
-                            ),
-                            const SizedBox(width: 8),
-                          ],
-                        ),
-                      ],
-                    ),
+                                ),
+                              );
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -101,9 +85,9 @@ class _MyDashboardState extends State<MyDashboard> {
           ),
           Container(
             alignment: Alignment.center,
-            height: 180,
+            height: 150,
             child: SizedBox(
-              height: 180,
+              height: 150,
               child: Card(
                 elevation: 6,
                 shadowColor: Colors.grey,
@@ -131,10 +115,10 @@ class _MyDashboardState extends State<MyDashboard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          TextButton(
-                            child: const Text('ESCONDER'),
-                            onPressed: () {},
-                          ),
+                          // TextButton(
+                          //   child: const Text('REMOVER'),
+                          //   onPressed: () {},
+                          // ),
                           const SizedBox(width: 8),
                           TextButton(
                             child: const Text('IR PARA'),
@@ -160,9 +144,9 @@ class _MyDashboardState extends State<MyDashboard> {
           ),
           Container(
             alignment: Alignment.center,
-            height: 180,
+            height: 150,
             child: SizedBox(
-              height: 180,
+              height: 150,
               child: Card(
                 elevation: 6,
                 shadowColor: Colors.grey,
@@ -190,12 +174,12 @@ class _MyDashboardState extends State<MyDashboard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          TextButton(
-                            child: const Text('ESCONDER'),
-                            onPressed: () {
-                              /* ... */
-                            },
-                          ),
+                          // TextButton(
+                          //   child: const Text('REMOVER'),
+                          //   onPressed: () {
+                          //     /* ... */
+                          //   },
+                          // ),
                           const SizedBox(width: 8),
                           TextButton(
                             child: const Text('IR PARA'),
@@ -221,9 +205,9 @@ class _MyDashboardState extends State<MyDashboard> {
           ),
           Container(
             alignment: Alignment.center,
-            height: 180,
+            height: 150,
             child: SizedBox(
-              height: 180,
+              height: 150,
               child: Card(
                 elevation: 6,
                 shadowColor: Colors.grey,
@@ -251,12 +235,12 @@ class _MyDashboardState extends State<MyDashboard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          TextButton(
-                            child: const Text('ESCONDER'),
-                            onPressed: () {
-                              /* ... */
-                            },
-                          ),
+                          // TextButton(
+                          //   child: const Text('REMOVER'),
+                          //   onPressed: () {
+                          //     /* ... */
+                          //   },
+                          // ),
                           const SizedBox(width: 8),
                           TextButton(
                             child: const Text('IR PARA'),
@@ -282,9 +266,9 @@ class _MyDashboardState extends State<MyDashboard> {
           ),
           Container(
             alignment: Alignment.center,
-            height: 180,
+            height: 150,
             child: SizedBox(
-              height: 180,
+              height: 150,
               child: Card(
                 elevation: 6,
                 shadowColor: Colors.grey,
@@ -312,12 +296,12 @@ class _MyDashboardState extends State<MyDashboard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          TextButton(
-                            child: const Text('ESCONDER'),
-                            onPressed: () {
-                              /* ... */
-                            },
-                          ),
+                          // TextButton(
+                          //   child: const Text('REMOVER'),
+                          //   onPressed: () {
+                          //     /* ... */
+                          //   },
+                          // ),
                           const SizedBox(width: 8),
                           TextButton(
                             child: const Text('IR PARA'),

@@ -53,7 +53,24 @@ class _LoginPageState extends State<LoginPage> {
             backgroundColor: MaterialStatePropertyAll<Color>(
                 Color.fromARGB(255, 80, 62, 115))),
         onPressed: () {
-          Navigator.of(context).pushNamed(HomePage.tag);
+          Navigator.of(context).push(PageRouteBuilder(
+              pageBuilder: (context, animation, anotherAnimation) {
+                return HomePage(context, homeContext: context,);
+              },
+              transitionDuration: Duration(milliseconds: 500),
+              transitionsBuilder:
+                  (context, animation, anotherAnimation, child) {
+                animation = CurvedAnimation(
+                    curve: Curves.easeInCirc, parent: animation);
+                return Align(
+                  child: SizeTransition(
+                    sizeFactor: animation,
+                    child: child,
+                    axisAlignment: 0.0,
+                  ),
+                );
+              }));
+         // Navigator.of(context).pushNamed(HomePage.tag);
         },
         child: Text('Entrar', style: TextStyle(color: Colors.white)),
       ),
